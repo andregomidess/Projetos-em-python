@@ -27,10 +27,10 @@ def partition(array, start, end):
         while low <= high and array[low] <= pivot:
             low = low + 1
         if low <= high:
-            array[low], array[high] = array[high], array[low]
+            array[low], array[high] = array[high], array[low]   # troca dos valores 
         else:
             break
-    array[start], array[high] = array[high], array[start]
+    array[start], array[high] = array[high], array[start]   # troca do pivot
     return high
 
 
@@ -44,7 +44,7 @@ def quick_sort(array, start, end):
 
 array1 = randd_intt()
 array2 = randd_intt()
-start = time.time()
+start = time.time() # inicio da contagem do tempo
 quick_sort(array1, 0, len(array1) - 1)
 end_quick = time.time()
 bubble_sort(array2)
