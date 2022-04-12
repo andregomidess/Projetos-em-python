@@ -42,9 +42,9 @@ def quick_sort(array, start, end):
     quick_sort(array, p+1, end)
 
 
-start = time.time()
 array1 = randd_intt()
 array2 = randd_intt()
+start = time.time()
 quick_sort(array1, 0, len(array1) - 1)
 end_quick = time.time()
 bubble_sort(array2)
