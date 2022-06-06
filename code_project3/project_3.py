@@ -1,5 +1,5 @@
 from random import randint
-import time
+from time import time
 
 
 # função para preencher uma lista com numeros aleatorios
@@ -42,12 +42,13 @@ def quick_sort(array, start, end):
     quick_sort(array, p+1, end)
 
 
+
 array1 = randd_intt()
 array2 = randd_intt()
-start = time.time() # inicio da contagem do tempo
+start = time() # inicio da contagem do tempo
 quick_sort(array1, 0, len(array1) - 1)
-end_quick = time.time()
+end_quick = time()
 bubble_sort(array2)
-end_bubble = time.time()
+end_bubble = time()
 print('Tempo de execução do método Bubble Sort: {:.2f} ms'.format((end_bubble - start)*1000))
 print('Tempo de execução do método Quick Sort: {:.2f} ms'.format((end_quick - start)*1000))
