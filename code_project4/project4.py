@@ -90,7 +90,8 @@ def jogo_forca(palavra):
     tam_word = len(palavra)
     tentativas = 7
     simbolos = list()
-    letras = list(palavra)
+    letras_palavra = list(palavra)
+    letras_digitadas = []
     print(f'A PALAVRA TEM {tam_word} LETRAS!')
     print(f'NÚMERO DE TENTATIVAS: {tentativas}')
     sleep(1)
@@ -98,15 +99,18 @@ def jogo_forca(palavra):
     for _ in range(tam_word):
         simbolos.append('\033[1;91m__\033[m')
     t = ' '.join(simbolos)      
-    while tentativas > 0:
+    while tentativas > 0 or acertos >= tam_word:
         print(t)
         imprime_boneco(tentativas)
         letra = input('Digite uma letra: ').upper()               
-        letras.append(letra)
+        if letra in letras_digitadas:
+            print('\033[1;31mLETRA JÁ DIGITADA!\033[m')
+            
+        letras_digitadas.append(letra)
         if letra in palavra:    # fazer função checa letra
             for i in range(tam_word):
-                if letra == letras[i]:
-                    simbolos[i] = letras[i]
+                if letra == letras_palavra[i]:
+                    simbolos[i] = letras_palavra[i]
                     t = ' '.join(simbolos)
                     print(t)
                     acertos += 1
