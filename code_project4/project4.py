@@ -94,12 +94,19 @@ def palavras_aleatorias(words):
     return palavra.upper()
 
 def menu():
+    palavra = palavras_aleatorias(words)
     tentativas = 0
     print('=-'*18)
     print('          |JOGO DA FORCA|')
     imprime_boneco(tentativas)
     print('Digite [1] para jogar')
     print('Digite [2] para sair')
+    op = int(input('Digite sua opção: '))
+    if op == 1:
+        clear()
+        jogo_forca(palavra)
+    else:
+        return
     print('=-'*18)
     
     
@@ -110,15 +117,14 @@ def jogo_forca(palavra):
     simbolos = list()
     letras_palavra = list(palavra)
     letras_digitadas = []
-    print(f'A PALAVRA TEM {tam_word} LETRAS!')
-    print(f'NÚMERO DE TENTATIVAS: {tentativas}')
-    sleep(1)
     for _ in range(tam_word):
         simbolos.append('\033[1;91m__\033[m')
     t = ' '.join(simbolos)      
     while tentativas > 0:
         if simbolos == letras_palavra:
             break 
+        print(f'A PALAVRA TEM {tam_word} LETRAS!')
+        print(f'NÚMERO DE TENTATIVAS: {tentativas}')
         lixo = ' '.join(letras_digitadas)
         print(f'Letras digitadas: {lixo}')
         print(t)
@@ -150,7 +156,18 @@ def jogo_forca(palavra):
         print(t)
         imprime_boneco(tentativas)
         print('\033[1;31mQUE PENA, VOCÊ PERDEU!\033[m\n')
-        print(f'A palavra era: \033[1;96m{palavra}\033[m')   
+        print(f'A palavra era: \033[1;96m{palavra}\033[m')
+    
+    escolha = None
+    while escolha != 'S' or escolha != 'N':
+        print('\033[1;33mDIGITE ''N'' OU ''S''\033[m')   
+        escolha = input(str('Você deseja jogar novamente?[S/N] ')).upper()
+        if escolha == 'S':
+            clear()
+            menu()
+        else:
+            break
+    return               
         
                            
                     
@@ -158,14 +175,5 @@ def jogo_forca(palavra):
             
             
 if __name__ == '__main__':
-    palavra = palavras_aleatorias(words)
     menu()
-    op = int(input('Digite sua opção: '))
-    if op == 1:
-        clear()
-        jogo_forca(palavra)
-    else:
-        pass
-    
-    print()
             
