@@ -101,13 +101,13 @@ def menu():
     imprime_boneco(tentativas)
     print('Digite [1] para jogar')
     print('Digite [2] para sair')
+    print('=-'*18)
     op = int(input('Digite sua opção: '))
     if op == 1:
         clear()
         jogo_forca(palavra)
     else:
         return
-    print('=-'*18)
     
     
 def jogo_forca(palavra):
@@ -165,15 +165,12 @@ def jogo_forca(palavra):
         if escolha == 'S':
             clear()
             menu()
+            break
         else:
             break
     return               
         
-                           
-                    
-            
-            
-            
+                                
 if __name__ == '__main__':
     menu()
             
