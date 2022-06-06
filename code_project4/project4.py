@@ -7,14 +7,61 @@ from time import sleep
 clear = lambda: os.system('clear')
 
 
-def imprime_boneco():
+def imprime_boneco(tentativas):
+    if tentativas == 7:
+        print("""\033[1;96m
+                    O  
+                   /|\\
+                    |
+                   / \\
+                            \033[m""")
+    elif tentativas == 6:
+        print("""\033[1;96m
+                    O  
+                   /|\\
+                    |
+                   / 
+                            \033[m""")
+        
+    elif tentativas == 5:
+        print("""\033[1;96m
+                    O  
+                   /|\\
+                    |
 
-    print("""
-                 O  
-                /|\\
-                 |
-                / \\
-                        """)
+                            \033[m""")
+    elif tentativas == 4:
+        print("""\033[1;96m
+                    O  
+                   /|\\
+                    
+
+                            \033[m""")
+    elif tentativas == 3:
+        print("""\033[1;96m
+                    O  
+                   /|
+                    
+
+                            \033[m""") 
+    elif tentativas == 2:
+        print("""\033[1;96m
+                    O  
+                    |
+                    
+
+                            \033[m""")
+        
+    else:
+        print("""\033[1;96m
+                    O  
+                   
+                    
+
+                            \033[m""")
+                               
+            
+    
     
 def palavras_aleatorias(words):
     palavra = random.choice(words)
@@ -23,9 +70,10 @@ def palavras_aleatorias(words):
     return palavra.upper()
 
 def menu():
+    tentativas = 7
     print('=-'*18)
     print('          |JOGO DA FORCA|')
-    imprime_boneco()
+    imprime_boneco(tentativas)
     print('Digite [1] para jogar')
     print('Digite [2] para sair')
     op = input('Digite sua opção: ')
@@ -35,8 +83,10 @@ def menu():
         pass
     print('=-'*18)
     
+    
 def jogo_forca(palavra):
-    print(palavra)
+    #print(palavra)
+    acertos = 0
     tam_word = len(palavra)
     tentativas = 7
     simbolos = list()
@@ -45,21 +95,24 @@ def jogo_forca(palavra):
     print(f'NÚMERO DE TENTATIVAS: {tentativas}')
     sleep(1)
     #print('     \033[1;91m__  \033[m'*tam_word)
-    imprime_boneco()
-    print('')
     for _ in range(tam_word):
-        simbolos.append('*')
-    t = ''.join(simbolos)
-    print(t)       
-    while tentativas >= 0:
+        simbolos.append('\033[1;91m__\033[m')
+    t = ' '.join(simbolos)      
+    while tentativas > 0:
+        print(t)
+        imprime_boneco(tentativas)
         letra = input('Digite uma letra: ').upper()               
         letras.append(letra)
         if letra in palavra:    # fazer função checa letra
             for i in range(tam_word):
                 if letra == letras[i]:
                     simbolos[i] = letras[i]
-                    t = ''.join(simbolos)
+                    t = ' '.join(simbolos)
                     print(t)
+                    acertos += 1
+        else:
+            tentativas -= 1
+        clear()                   
                     
             
             
