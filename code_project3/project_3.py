@@ -1,54 +1,118 @@
-from random import randint
-from time import time
+from abc import ABC, abstractmethod
+
+class vendedor(ABC):
+    def __init__(self, codigo, nome):
+        self.__codigo = codigo
+        self.__nome = nome
+        self.__vendas = []
+
+    def get_codigo (self):
+        return self.__codigo
+
+    def get_nome(self):
+        return self.__nome
+
+    def get_vendas(self):
+        return self.__vendas
+
+    def adicionaVenda(self, codImovel, mes, ano, valor):
+        vendaa = venda(codImovel, mes, ano, valor, self)
+        self.__vendas.append(vendaa)
+
+    @abstractmethod
+    def getDados(self):
+        pass
+
+    @abstractmethod
+    def calculaRenda(self, mes, ano):
+        pass
 
 
-# função para preencher uma lista com numeros aleatorios
-def randd_intt():
-    l = list()
-    for _ in range(0, 5000):
-        l.append(randint(1, 20000))
-    return l    
+class venda:
+    def __init__(self, codImovel, mesVenda, anoVenda, valorVenda, vendedor):
+        self.__codImovel = codImovel
+        self.__mesVenda = mesVenda
+        self.__anoVenda = anoVenda
+        self.__valorVenda = valorVenda
+        self.__vendedor = vendedor
+
+    def get_codImovel(self):
+        return self.__codImovel
+
+    def get_mesVenda(self):
+        return self.__mesVenda
+
+    def get_anoVenda(self):
+        return self.__anoVenda
+
+    def get_valorVenda(self):
+        return self.__valorVenda
+
+    def get_vendedor(self):
+        return self.__vendedor
+
+class Contratado(vendedor):
+    def __init__(self, codigo, nome, salario_fixo, nro_cart_trabalho):
+        super().__init__(codigo, nome)
+        self.__salario_fixo = salario_fixo
+        self.__nro_cart_trabalho = nro_cart_trabalho
+        self.__comissao = 0.01
+        
+    def get_salario_fixo(self):
+        return self.__salario_fixo    
+
+    def get_nro_cart_trabalho(self):
+        return self.__nro_cart_trabalho
 
 
-def bubble_sort(array):
-    for j in range(len(array)-1,0,-1):  # percorrendo o array de tras pra frente
-        for i in range(j):  # laço for para percorrer todo o vetor e fazer a troca de posição se i > i+1
-            if array[i] > array[i+1]:
-                array[i], array[i+1] = array[i+1], array[i]
+    def getDados(self):
+        return 'Nome: ' + self.get_nome() + ' - ' + 'Nro Carteira de trabalho: ' + str(self.__nro_cart_trabalho)
 
 
-def partition(array, start, end):
-    pivot = array[start]
-    low = start + 1
-    high = end
-    while True:
-        while low <= high and array[high] >= pivot:
-            high = high - 1
-        while low <= high and array[low] <= pivot:
-            low = low + 1
-        if low <= high:
-            array[low], array[high] = array[high], array[low]   # troca dos valores 
-        else:
-            break
-    array[start], array[high] = array[high], array[start]   # troca do pivot
-    return high
+    def calculaRenda(self, mes, ano):
+        sal = self.__salario_fixo
+        for i in self.get_vendas():
+            if i.get_mesVenda() == mes and i.get_anoVenda() == ano:
+                sal += self.__comissao * i.get_valorVenda()
+        return sal    
 
 
-def quick_sort(array, start, end):
-    if start >= end:
-        return
-    p = partition(array, start, end)
-    quick_sort(array, start, p-1)
-    quick_sort(array, p+1, end)
+class Comissionado(vendedor):
+    def __init__(self, codigo, nome, nro_cpf, comissao):
+        super().__init__(codigo, nome)
+        self.__nro_cpf = nro_cpf
+        self.__comissao = comissao
+
+    def get_nro_cpf(self):
+        return self.__nro_cpf
+
+    def get_comissao(self):
+        return self.__comissao
+
+    def getDados(self):
+        return 'Nome: ' + self.get_nome() + ' - ' + 'Nro CPF: ' + str(self.__nro_cpf)
+
+    def calculaRenda(self, mes, ano):
+        sal = 0
+        for i in self.get_vendas():
+            if i.get_mesVenda() == mes and i.get_anoVenda() == ano:
+                sal += (self.__comissao/100) * i.get_valorVenda()
+        return sal  
 
 
 
-array1 = randd_intt()
-array2 = randd_intt()
-start = time() # inicio da contagem do tempo
-quick_sort(array1, 0, len(array1) - 1)
-end_quick = time()
-bubble_sort(array2)
-end_bubble = time()
-print('Tempo de execução do método Bubble Sort: {:.2f} ms'.format((end_bubble - start)*1000))
-print('Tempo de execução do método Quick Sort: {:.2f} ms'.format((end_quick - start)*1000))
+
+
+funcContratado = Contratado(1001, 'João da Silva', 2000, 1234)
+funcContratado.adicionaVenda(100, 3, 2022, 200000)
+funcContratado.adicionaVenda(101, 3, 2022, 300000)
+funcContratado.adicionaVenda(102, 4, 2022, 600000)
+funcComissionado = Comissionado(1002, 'José Santos', 4321, 5)
+funcComissionado.adicionaVenda(200, 3, 2022, 200000)
+funcComissionado.adicionaVenda(201, 3, 2022, 400000)
+funcComissionado.adicionaVenda(202, 4, 2022, 500000)
+listaFunc = {funcContratado, funcComissionado}
+for func in listaFunc:
+    print (func.getDados())
+    print ("Renda no mês 3 de 2022: ")
+    print (func.calculaRenda(3, 2022))
