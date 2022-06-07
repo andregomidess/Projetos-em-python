@@ -13,7 +13,7 @@ def calcula_juros():
     porcentagem = float(caixa_porcentagem.get())
     tempo = int(caixa_tempo.get())
     JurosCompostos =  montante*(1+(porcentagem/100))**tempo
-    caixa_juros.insert(0, JurosCompostos)
+    caixa_juros.insert(0, round(JurosCompostos, 2))
 
 if __name__ == '__main__':
     
