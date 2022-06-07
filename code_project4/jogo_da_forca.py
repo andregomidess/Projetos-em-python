@@ -111,7 +111,6 @@ def menu():
     
     
 def jogo_forca(palavra):
-    print(palavra)
     tam_word = len(palavra)
     tentativas = 7
     simbolos = list()
